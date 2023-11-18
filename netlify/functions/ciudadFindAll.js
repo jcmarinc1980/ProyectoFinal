@@ -38,7 +38,7 @@ exports.handler = async (event, context) => {
     });
    
    const keys = (await redis.keys('ciudades_*')).filter(id => id !== 'ciudades_N');
-   const cuidades = await redis.mget(keys);
+   const ciudades = await redis.mget(keys);
  
    ciudades.forEach(toJson);
     return { statusCode: 200, headers, body: JSON.stringify(ciudades)};
