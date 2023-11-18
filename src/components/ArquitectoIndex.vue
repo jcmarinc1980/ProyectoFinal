@@ -7,8 +7,7 @@
             <h2>{{title}}</h2>
           </div>
           <div class="six columns">
-            <a class="button"
-         v-on:click="ejecutarTasks()">Actualizar tabla</a>
+            
          &nbsp;
          <router-link class="button button-primary" 
        to="/arquitecto/create">New</router-link>
