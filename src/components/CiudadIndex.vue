@@ -29,13 +29,13 @@
        <td>{{ciudad.superficie}}</td>
        <td>
        <router-link class="button"
-         :to="'/ciudad/show/'+ciudad._id">Show</router-link>
+         :to="'/ciudad/show/'+ciudad.id">Show</router-link>
        &nbsp;
        <router-link class="button"
-         :to="'/ciudad/edit/'+ciudad._id">Edit</router-link>
+         :to="'/ciudad/edit/'+ciudad.id">Edit</router-link>
        &nbsp;
        <a class="button"
-         v-on:click="deleteCiudad(ciudad._id)">Erase</a>
+         v-on:click="deleteCiudad(ciudad.id)">Erase</a>
        </td>
        </tr></tbody>
      </table>

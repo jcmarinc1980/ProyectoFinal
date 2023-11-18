@@ -25,7 +25,7 @@
         </div>
         <div class="row">
           <router-link class="button button-primary" to="/ciudad">Back</router-link>
-          <a v-if='edit' class="button button-primary" style="float: right" v-on:click="updateCiudad(ciudad._id)">Update</a>
+          <a v-if='edit' class="button button-primary" style="float: right" v-on:click="updateCiudad(ciudad.id)">Update</a>
           <a v-if='create' class="button button-primary" style="float: right" v-on:click="createCiudad()">Create</a>
         </div>
       </form>
@@ -33,8 +33,8 @@
     <div v-if='show'>
       <h2>Lista de edificios en esta ciudad</h2>
     <ul>
-      <li v-for="edificio in edificios" :key="edificio._id">
-        <router-link  :to="'/edificio/show/'+edificio._id">{{ edificio.nombre }}</router-link>
+      <li v-for="edificio in edificios" :key="edificio.id">
+        <router-link  :to="'/edificio/show/'+edificio.id">{{ edificio.nombre }}</router-link>
       </li>
     </ul>
   </div>
