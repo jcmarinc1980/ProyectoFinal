@@ -40,7 +40,7 @@ exports.handler = async (event, context) => {
     });
    const arquitecto = await redis.get('arquitectos_'+id);
    let arquitectos = [];
-   arquitectos.push(book);
+   arquitectos.push(arquitecto);
    arquitectos.forEach(toJson);
     return { statusCode: 200, headers, body: JSON.stringify(arquitectos)};
   } catch (error) {

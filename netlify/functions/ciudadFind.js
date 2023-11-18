@@ -42,7 +42,7 @@ exports.handler = async (event, context) => {
     });
    const ciudad = await redis.get('ciudades_'+id);
    let ciudades = [];
-   ciudades.push(book);
+   ciudades.push(ciudad);
    ciudades.forEach(toJson);
     return { statusCode: 200, headers, body: JSON.stringify(ciudades)};
   } catch (error) {
