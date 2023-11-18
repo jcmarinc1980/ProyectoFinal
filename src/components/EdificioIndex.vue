@@ -36,13 +36,13 @@
        <td>{{edificio.arquitecto}}</td>
        <td>
        <router-link class="button"
-         :to="'/edificio/show/'+edificio._id">Show</router-link>
+         :to="'/edificio/show/'+edificio.id">Show</router-link>
        &nbsp;
        <router-link class="button"
-         :to="'/edificio/edit/'+edificio._id">Edit</router-link>
+         :to="'/edificio/edit/'+edificio.id">Edit</router-link>
        &nbsp;
        <a class="button"
-         v-on:click="deleteEdificio(edificio._id)">Erase</a>
+         v-on:click="deleteEdificio(edificio.id)">Erase</a>
        </td>
        </tr></tbody>
      </table>
