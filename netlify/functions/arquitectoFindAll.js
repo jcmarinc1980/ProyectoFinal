@@ -41,7 +41,7 @@ exports.handler = async (event, context) => {
    const arquitectos = await redis.mget(keys);
  
    arquitectos.forEach(toJson);
-    return { statusCode: 200, headers, body: JSON.stringify(books)};
+    return { statusCode: 200, headers, body: JSON.stringify(arquitectos)};
   } catch (error) {
     console.log(error);
     return { statusCode: 400, headers, body: JSON.stringify(error) };
