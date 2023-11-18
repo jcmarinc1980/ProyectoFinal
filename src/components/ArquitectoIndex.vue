@@ -8,7 +8,7 @@
           </div>
           <div class="six columns">
             
-         &nbsp;
+         
          <router-link class="button button-primary" 
        to="/arquitecto/create">New</router-link>
           </div>
