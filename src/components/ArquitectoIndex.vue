@@ -25,7 +25,9 @@
 	   </tr>
        </thead><tbody>
        <tr v-for='arquitecto in arquitectos'>
-       <td>{{arquitecto.nombre}}</td>
+        <td>{{arquitecto.id}}</td>
+        <td>{{arquitecto._id}}</td>
+        <td>{{arquitecto.nombre}}</td>
        <td>{{arquitecto.fecha_nacimiento}}</td>
        <td>{{arquitecto.nacionalidad}}</td>
        <td>{{arquitecto.educacion}}</td>
