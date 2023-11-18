@@ -7,7 +7,7 @@ import './assets/css/skeleton.css';
 
 const app = createApp(App);
   
-app.config.globalProperties.url = 'https://marvelous-queijadas-452369.netlify.app';
+app.config.globalProperties.url = 'https://deluxe-yeot-0ce139.netlify.app/';
 //https://bookstore-mongo.netlify.app
 app.use(router).mount("#app");
 
