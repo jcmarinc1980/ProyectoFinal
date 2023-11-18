@@ -68,17 +68,7 @@ export default {
           this.arquitectos = items;
         })
      },
-     ejecutarTasks() {
-      if (!this.recargado) { // Verificar si no se ha recargado aún
-        fetch(this.url + '/.netlify/functions/arquitectosTasks', {
-          headers: { 'Accept': 'application/json' },
-          method: 'GET',
-        }).then(() => {
-          this.recargado = true; // Marcar como recargado
-          window.location.href = '/'
-        });
-      }
-     },
+     
      deleteArquitecto(id) {
        fetch(this.url+'/.netlify/functions/arquitectoDelete/'+id,
          { headers: {'Content-Type': 'application/json'},
