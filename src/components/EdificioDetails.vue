@@ -12,7 +12,7 @@
           <div class="six columns">
             <label for="ciudadSelect">Ciudad</label>
             <select class="u-full-width" v-model="edificio.ciudad_id">
-              <option v-for="ciudad in ciudades" :key="ciudad._id" :value="ciudad._id">{{ ciudad.nombre }}</option>
+              <option v-for="ciudad in ciudades" :key="ciudad.id" :value="ciudad.id">{{ ciudad.nombre }}</option>
             </select>
             <input type="hidden" v-model="edificio.ciudad">
           </div>
@@ -21,7 +21,7 @@
           <div class="six columns">
             <label for="arquitectoSelect">Arquitecto</label>
             <select class="u-full-width" v-model="edificio.arquitecto_id">
-              <option v-for="arquitecto in arquitectos" :key="arquitecto._id" :value="arquitecto._id">{{ arquitecto.nombre}}</option>
+              <option v-for="arquitecto in arquitectos" :key="arquitecto.id" :value="arquitecto.id">{{ arquitecto.nombre}}</option>
             </select>
             <input type="hidden" v-model="edificio.arquitecto">
           </div>
@@ -48,7 +48,7 @@
         </div>
         <div class="row">
           <router-link class="button button-primary" to="/edificio">Back</router-link>
-          <a v-if='edit' class="button button-primary" style="float: right" v-on:click="updateEdificio(edificio._id)">Update</a>
+          <a v-if='edit' class="button button-primary" style="float: right" v-on:click="updateEdificio(edificio.id)">Update</a>
           <a v-if='create' class="button button-primary" style="float: right" v-on:click="createEdificio()">Create</a>
         </div>
       </form>
@@ -128,11 +128,11 @@ export default {
     },
     updateEdificio: function (id) {
       // Obtén el nombre del autor seleccionado
-      const selectedCiudad = this.ciudades.find(ciudad => ciudad._id === this.edificio.ciudad_id);
+      const selectedCiudad = this.ciudades.find(ciudad => ciudad.id === this.edificio.ciudad_id);
       if (selectedCiudad) {
         this.edificio.ciudad = selectedCiudad.nombre; 
       }
-      const selectedArquitecto = this.arquitectos.find(arquitecto => arquitecto._id === this.edificio.arquitecto_id);
+      const selectedArquitecto = this.arquitectos.find(arquitecto => arquitecto.id === this.edificio.arquitecto_id);
       if (selectedArquitecto) {
         this.edificio.arquitecto = selectedArquitecto.nombre;
       }
@@ -149,11 +149,11 @@ export default {
     },
     createEdificio: function () {
       // Obtén el nombre del autor seleccionado
-      const selectedCiudad = this.ciudades.find(ciudad => ciudad._id === this.edificio.ciudad_id);
+      const selectedCiudad = this.ciudades.find(ciudad => ciudad.id === this.edificio.ciudad_id);
       if (selectedCiudad) {
         this.edificio.ciudad = selectedCiudad.nombre; 
       }
-      const selectedArquitecto = this.arquitectos.find(arquitecto => arquitecto._id === this.edificio.arquitecto_id);
+      const selectedArquitecto = this.arquitectos.find(arquitecto => arquitecto.id === this.edificio.arquitecto_id);
       if (selectedArquitecto) {
         this.edificio.arquitecto = selectedArquitecto.nombre;
       }
