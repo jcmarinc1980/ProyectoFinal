@@ -37,11 +37,6 @@ exports.handler = async (event, context) => {
       console.log("You are now connected");
     });
    
-   /*let keys = [];
-   let n = await redis.get('book_N');
-   for(let i = 1; i<=n; i++)
-     keys.push('book_'+i);
-   const books = await redis.mget(keys);*/
    const keys = (await redis.keys('edificios_*')).filter(id => id !== 'edificios_N');
    const books = await redis.mget(keys);
  
