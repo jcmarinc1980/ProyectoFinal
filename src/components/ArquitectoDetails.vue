@@ -32,7 +32,7 @@
       </form>
     </div>
     <div v-if='show'>
-      <h2>Lista de edificios en esta ciudad</h2>
+      <h2>Lista de Arquitectos en esta ciudad</h2>
     <ul>
       <li v-for="edificio in edificios" :key="edificio.id">
         <router-link  :to="'/edificio/show/'+edificio.id">{{ edificio.nombre }}</router-link>

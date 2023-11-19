@@ -13,7 +13,7 @@
  <router-view />
   <div class="row">
     <button disabled="disabled" class="twelve columns button-primary">
-      Protecto Final - Mijail Diaz Bengoa - Juan Marín Cascante
+      Protecto Final - Mijail Diaz Bengoa - Juan Carlos Marín Cascante
     </button>
   </div>
 </div>
