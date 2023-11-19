@@ -1,55 +1,39 @@
-/*"use strict"
-
-const clientPromise = require('./mongoDB');
-const headers = require('./headersCORS');
-
-exports.handler = async (event, context) => {
-
-  if (event.httpMethod == "OPTIONS") {
-    return { statusCode: 200, headers, body: "OK" };
-  }
-	
-  try {
-    const client = await clientPromise;
-    const id = parseInt(event.path.split("/").reverse()[0]);
-
-    // const respuesta = await client.db("proyecto").collection("edificios").find({}).toArray();
-    const respuesta = await client.db("proyecto").collection("edificios").find({arquitecto_id:id}).toArray();
-
-    return { statusCode: 200, headers, body: JSON.stringify(respuesta)};
-  } catch (error) {
-    console.log(error);
-    return { statusCode: 400, headers, body: JSON.stringify(error) };
-  }
-};*/
-
 "use strict";
 
 const redis = require('./redisDB');
 const headers = require('./headersCORS');
 
-function toJson(item, index, arr) {
-  arr[index] = JSON.parse(item);
+function toJson(item) {
+  return JSON.parse(item);
 }
 
 exports.handler = async (event, context) => {
-  if (event.httpMethod == "OPTIONS") {
+  if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers, body: "OK" };
   }
 
   try {
     redis.on("connect", function() {
-      console.log("You are now connected to Redis");
+      console.log("Connected to Redis");
     });
 
-    const id = parseInt(event.path.split("/").reverse()[0]);
-    const keys = (await redis.keys(`arquitectos_${id}_*`)).filter(id => id !== `arquitectos_${id}_N`);
-    const arquitectos = await redis.mget(keys);
+    const arquitectoId = parseInt(event.path.split("/").reverse()[0]);
 
-    arquitectos.forEach(toJson);
-    return { statusCode: 200, headers, body: JSON.stringify(arquitectos)};
+    // Obtener todas las claves que comienzan con "edificios_"
+    const allEdificiosKeys = await redis.keys("edificios_*");
+
+    // Obtener los datos de todos los edificios
+    const edificiosData = await Promise.all(allEdificiosKeys.map(async (key) => {
+      const edificioData = await redis.get(key);
+      return toJson(edificioData);
+    }));
+
+    // Filtrar los edificios por arquitecto_id
+    const edificiosArquitecto = edificiosData.filter((edificio) => edificio.arquitecto_id === arquitectoId);
+
+    return { statusCode: 200, headers, body: JSON.stringify(edificiosArquitecto) };
   } catch (error) {
-    console.log(error);
-    return { statusCode: 400, headers, body: JSON.stringify(error) };
+    console.error("Error:", error);
+    return { statusCode: 500, headers, body: JSON.stringify(error.message) };
   }
 };
