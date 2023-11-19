@@ -43,16 +43,8 @@ exports.handler = async (event, context) => {
 
     const ciudadId = parseInt(event.path.split("/").reverse()[0]);
 
-    // Buscar la clave de la ciudad
-    const ciudadKey = `ciudades_${ciudadId}`;
-    const ciudad = await redis.get(ciudadKey);
-    if (!ciudad) {
-      return { statusCode: 404, headers, body: "Ciudad no encontrada en Redis" };
-    }
-    const ciudadData = toJson(ciudad);
-
-    // Buscar la clave del edificio asociado a la ciudad
-    const edificioKey = `edificios_${ciudadData.ciudad_id}`;
+    // Buscar la clave del edificio directamente por su ID
+    const edificioKey = `edificios_${ciudadId}`;
     const edificio = await redis.get(edificioKey);
     if (!edificio) {
       return { statusCode: 404, headers, body: "Edificio no encontrado en Redis" };
