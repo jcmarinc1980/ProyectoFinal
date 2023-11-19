@@ -27,8 +27,8 @@ exports.handler = async (event, context) => {
 const redis = require('./redisDB');
 const headers = require('./headersCORS');
 
-function toJson(item, index, arr) {
-  arr[index] = JSON.parse(item);
+function toJson(item) {
+  return JSON.parse(item);
 }
 
 exports.handler = async (event, context) => {
@@ -38,18 +38,30 @@ exports.handler = async (event, context) => {
 
   try {
     redis.on("connect", function() {
-      console.log("You are now connected to Redis");
+      console.log("Connected to Redis");
     });
 
-    const id = parseInt(event.path.split("/").reverse()[0]);
-    console.log("ID enviado:", id); 
-    const keys = (await redis.keys(`edificios_${id}_*`)).filter(key => key !== `edificios_${id}_N`);
-    const edificios = await redis.mget(keys);
+    const ciudadId = parseInt(event.path.split("/").reverse()[0]);
 
-    edificios.forEach(toJson);
-    return { statusCode: 200, headers, body: JSON.stringify(edificios)};
+    // Buscar la clave de la ciudad
+    const ciudadKey = `ciudades_${ciudadId}`;
+    const ciudad = await redis.get(ciudadKey);
+    if (!ciudad) {
+      return { statusCode: 404, headers, body: "Ciudad no encontrada en Redis" };
+    }
+    const ciudadData = toJson(ciudad);
+
+    // Buscar la clave del edificio asociado a la ciudad
+    const edificioKey = `edificios_${ciudadData.ciudad_id}`;
+    const edificio = await redis.get(edificioKey);
+    if (!edificio) {
+      return { statusCode: 404, headers, body: "Edificio no encontrado en Redis" };
+    }
+    const edificioData = toJson(edificio);
+
+    return { statusCode: 200, headers, body: JSON.stringify(edificioData) };
   } catch (error) {
-    console.log(error);
-    return { statusCode: 400, headers, body: JSON.stringify(error) };
+    console.error("Error:", error);
+    return { statusCode: 500, headers, body: JSON.stringify(error.message) };
   }
 };
