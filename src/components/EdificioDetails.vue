@@ -89,7 +89,7 @@ export default {
       this.findEdificio(route.params.id);
     else {
       this.edificio = {
-        '_id': Math.floor(Math.random() * 100000000), 
+        'id': Math.floor(Math.random() * 100000000), 
         'nombre': '', 
         'altura': 0,
         'fecha_construccion': '',

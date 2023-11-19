@@ -61,7 +61,7 @@ export default {
       this.allEdificios(route.params.id);
     else {
       this.ciudad = {
-        '_id': Math.floor(Math.random() * 100000000), 
+        'id': Math.floor(Math.random() * 100000000), 
         'nombre': '', 
         'pais': '',
         'poblacion': '', 
