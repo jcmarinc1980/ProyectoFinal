@@ -43,16 +43,23 @@ exports.handler = async (event, context) => {
 
     const ciudadId = parseInt(event.path.split("/").reverse()[0]);
 
-    // Buscar la clave del edificio directamente por su ID
-    const edificioKey = `edificios_${ciudadId}`;
-    const edificio = await redis.get(edificioKey);
-    if (!edificio) {
-      console.log(`Edificio no encontrado para la ciudad ID: ${ciudadId}`);
-      return { statusCode: 404, headers, body: "Edificio no encontrado en Redis" };
-    }
-    const edificioData = toJson(edificio);
+    // Obtener todas las claves que comienzan con "edificios_"
+    const allEdificiosKeys = await redis.keys("edificios_*");
 
-    return { statusCode: 200, headers, body: JSON.stringify(edificioData) };
+    // Filtrar las claves para obtener solo las correspondientes a la ciudad especificada
+    const edificiosCiudadKeys = allEdificiosKeys.filter(async (key) => {
+      const edificioData = await redis.get(key);
+      const edificio = toJson(edificioData);
+      return edificio.ciudad_id === ciudadId;
+    });
+
+    // Obtener los datos de todos los edificios de la ciudad
+    const edificiosCiudad = await Promise.all(edificiosCiudadKeys.map(async (key) => {
+      const edificioData = await redis.get(key);
+      return toJson(edificioData);
+    }));
+
+    return { statusCode: 200, headers, body: JSON.stringify(edificiosCiudad) };
   } catch (error) {
     console.error("Error:", error);
     return { statusCode: 500, headers, body: JSON.stringify(error.message) };
