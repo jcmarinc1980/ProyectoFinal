@@ -80,7 +80,7 @@ export default {
         })
     },
     allEdificios: function(id) {
-      console.log("ID enviado:", id); 
+      console.log("ID :", id); 
       fetch(this.url + '/.netlify/functions/FindAllCiudadEdificio/'+ id,
         { headers: { 'Accept': 'application/json' } })
         .then((response) => response.json())
