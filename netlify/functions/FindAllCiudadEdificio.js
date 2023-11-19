@@ -43,6 +43,7 @@ exports.handler = async (event, context) => {
     });
 
     const id = parseInt(event.path.split("/").reverse()[0]);
+    console.log("ID enviado:", id); 
     const keys = (await redis.keys(`edificios_${id}_*`)).filter(id => id !== `edificios_${id}_N`);
     const edificios = await redis.mget(keys);
 
