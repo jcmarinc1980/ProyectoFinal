@@ -22,7 +22,6 @@ exports.handler = async (event, context) => {
     return { statusCode: 400, headers, body: JSON.stringify(error) };
   }
 };*/
-
 "use strict";
 
 const redis = require('./redisDB');
@@ -33,7 +32,7 @@ function toJson(item, index, arr) {
 }
 
 exports.handler = async (event, context) => {
-  if (event.httpMethod == "OPTIONS") {
+  if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers, body: "OK" };
   }
 
@@ -44,7 +43,7 @@ exports.handler = async (event, context) => {
 
     const id = parseInt(event.path.split("/").reverse()[0]);
     console.log("ID enviado:", id); 
-    const keys = (await redis.keys(`edificios_${id}_*`)).filter(id => id !== `edificios_${id}_N`);
+    const keys = (await redis.keys(`edificios_${id}_*`)).filter(key => key !== `edificios_${id}_N`);
     const edificios = await redis.mget(keys);
 
     edificios.forEach(toJson);
