@@ -1,27 +1,3 @@
-/*"use strict"
-
-const clientPromise = require('./mongoDB');
-const headers = require('./headersCORS');
-
-exports.handler = async (event, context) => {
-
-  if (event.httpMethod == "OPTIONS") {
-    return { statusCode: 200, headers, body: "OK" };
-  }
-	
-  try {
-    const client = await clientPromise;
-    const id = parseInt(event.path.split("/").reverse()[0]);
-
-    // const respuesta = await client.db("proyecto").collection("edificios").find({}).toArray();
-    const respuesta = await client.db("proyecto").collection("edificios").find({ciudad_id:id}).toArray();
-
-    return { statusCode: 200, headers, body: JSON.stringify(respuesta)};
-  } catch (error) {
-    console.log(error);
-    return { statusCode: 400, headers, body: JSON.stringify(error) };
-  }
-};*/
 "use strict";
 
 const redis = require('./redisDB');
@@ -46,18 +22,14 @@ exports.handler = async (event, context) => {
     // Obtener todas las claves que comienzan con "edificios_"
     const allEdificiosKeys = await redis.keys("edificios_*");
 
-    // Filtrar las claves para obtener solo las correspondientes a la ciudad especificada
-    const edificiosCiudadKeys = allEdificiosKeys.filter(async (key) => {
-      const edificioData = await redis.get(key);
-      const edificio = toJson(edificioData);
-      return edificio.ciudad_id === ciudadId;
-    });
-
-    // Obtener los datos de todos los edificios de la ciudad
-    const edificiosCiudad = await Promise.all(edificiosCiudadKeys.map(async (key) => {
+    // Obtener los datos de todos los edificios
+    const edificiosData = await Promise.all(allEdificiosKeys.map(async (key) => {
       const edificioData = await redis.get(key);
       return toJson(edificioData);
     }));
+
+    // Filtrar los edificios por ciudad_id
+    const edificiosCiudad = edificiosData.filter((edificio) => edificio.ciudad_id === ciudadId);
 
     return { statusCode: 200, headers, body: JSON.stringify(edificiosCiudad) };
   } catch (error) {
