@@ -33,8 +33,8 @@
     <div v-if='show'>
       <h2>Lista de edificios en esta ciudad</h2>
     <ul>
-      <li v-for="edificio in edificios" :key="edificios.id">
-        <router-link  :to="'/edificio/show/'+edificios.id">{{ edificio.nombre }}</router-link>
+      <li v-for="edificio in edificios" :key="edificio.id">
+        <router-link  :to="'/edificio/show/'+edificio.id">{{ edificio.nombre }}</router-link>
       </li>
     </ul>
   </div>
