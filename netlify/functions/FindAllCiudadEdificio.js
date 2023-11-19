@@ -47,6 +47,7 @@ exports.handler = async (event, context) => {
     const edificioKey = `edificios_${ciudadId}`;
     const edificio = await redis.get(edificioKey);
     if (!edificio) {
+      console.log(`Edificio no encontrado para la ciudad ID: ${ciudadId}`);
       return { statusCode: 404, headers, body: "Edificio no encontrado en Redis" };
     }
     const edificioData = toJson(edificio);
